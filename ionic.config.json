@@ -1,0 +1,7 @@
+{
+  "name": "smm-main",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
