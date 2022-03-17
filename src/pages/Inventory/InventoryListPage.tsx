@@ -66,7 +66,9 @@ const InventoryListPage: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <ExploreContainer>Inventory List Page </ExploreContainer>
-        <IonList>{data.map(renderItem)}</IonList>
+        <IonList lines="none" className="item-list">
+          {data.map(renderItem)}
+        </IonList>
       </IonContent>
     </IonPage>
   );

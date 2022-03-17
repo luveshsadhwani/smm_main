@@ -3,10 +3,10 @@ import {
   IonTitle,
   IonToolbar,
   IonIcon,
-  IonItem,
   IonButton,
   IonButtons,
   IonBackButton,
+  IonText,
 } from "@ionic/react";
 
 const AppHeader: React.FC<{
@@ -16,18 +16,22 @@ const AppHeader: React.FC<{
 }> = ({ title, endIcon, endIconHandler }) => {
   return (
     <IonHeader>
-      <IonToolbar>
+      <IonToolbar color="primary">
+        <IonButtons slot="start">
+          <IonBackButton />
+        </IonButtons>
         <IonTitle>
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
-          <IonItem>
-            {title}
-            <IonButton slot="end" fill="clear" onClick={endIconHandler}>
-              <IonIcon icon={endIcon} />
-            </IonButton>
-          </IonItem>
+          <IonText>
+            <strong>{title}</strong>
+          </IonText>
         </IonTitle>
+        <IonButton
+          slot="end"
+          onClick={endIconHandler}
+          className="ion-padding-end"
+        >
+          <IonIcon icon={endIcon} />
+        </IonButton>
       </IonToolbar>
     </IonHeader>
   );

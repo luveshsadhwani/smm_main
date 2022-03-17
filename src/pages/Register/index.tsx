@@ -111,7 +111,10 @@ const Register: React.FC = () => {
             </IonButton>
             <IonText>
               <h6>
-                Or <Link to="/login">SIGN IN</Link>
+                Or{" "}
+                <Link to="/login">
+                  <IonText color="secondary">SIGN IN</IonText>
+                </Link>
               </h6>
             </IonText>
           </div>

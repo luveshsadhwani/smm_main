@@ -85,6 +85,7 @@ const Login: React.FC = () => {
           <div className="ion-text-left ion-padding-start ion-margin-top">
             <IonButton
               onClick={handleLogin}
+              color="primary"
               routerDirection="forward"
               size="large"
             >
@@ -93,7 +94,10 @@ const Login: React.FC = () => {
             </IonButton>
             <IonText>
               <h6>
-                Or <Link to="/register">REGISTER</Link>
+                Or{" "}
+                <Link to="/register">
+                  <IonText color="secondary">REGISTER</IonText>
+                </Link>
               </h6>
             </IonText>
           </div>
