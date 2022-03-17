@@ -4,20 +4,42 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
-  IonChip,
+  IonIcon,
+  IonBadge,
+  IonText,
 } from "@ionic/react";
+import { addCircleSharp, removeCircleSharp } from "ionicons/icons";
+import "./InventoryItem.css";
 
 const InventoryItem: React.FC<{
   item: { itemName: string; quantity: number };
-}> = ({ item }) => {
+  editMode: boolean;
+}> = ({ item, editMode }) => {
   return (
     <IonItemSliding>
-      <IonItem>
-        <IonLabel>{item.itemName}</IonLabel>
-        <IonItem>
-          <IonChip outline color="primary">
-            <IonLabel>{item.quantity}</IonLabel>
-          </IonChip>
+      <IonItem lines="full" color="light">
+        <IonLabel className="ion-padding-vertical">{item.itemName}</IonLabel>
+        <IonItem color="light">
+          {editMode && (
+            <IonIcon
+              size="large"
+              icon={addCircleSharp}
+              className="ion-padding-end"
+            />
+          )}
+          <IonBadge className="ion-padding-horizontal" color="medium">
+            <IonText>
+              <h6>{item.quantity}</h6>
+            </IonText>
+          </IonBadge>
+
+          {editMode && (
+            <IonIcon
+              size="large"
+              icon={removeCircleSharp}
+              className="ion-padding-start"
+            />
+          )}
         </IonItem>
       </IonItem>
       <IonItemOptions side="end">

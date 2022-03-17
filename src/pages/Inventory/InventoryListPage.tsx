@@ -10,7 +10,7 @@ import {
 import { pencil, checkmark } from "ionicons/icons";
 import ExploreContainer from "../../components/ExploreContainer";
 import "./Inventory.css";
-import { AppHeader, InventoryItem, InventoryItemEdit } from "../../components";
+import { AppHeader, InventoryItem } from "../../components";
 
 const data = [
   {
@@ -50,12 +50,7 @@ const InventoryListPage: React.FC = () => {
     id: number;
     itemName: string;
     quantity: number;
-  }) =>
-    editMode ? (
-      <InventoryItemEdit key={item.id} item={item} />
-    ) : (
-      <InventoryItem key={item.id} item={item} />
-    );
+  }) => <InventoryItem key={item.id} item={item} editMode={editMode} />;
 
   return (
     <IonPage>
