@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   IonContent,
   IonHeader,
@@ -11,27 +11,37 @@ import { pencil, checkmark } from "ionicons/icons";
 import ExploreContainer from "../../components/ExploreContainer";
 import "./Inventory.css";
 import { AppHeader, InventoryItem } from "../../components";
-
-const data = [
-  {
-    id: 1,
-    itemName: "Item A",
-    quantity: 5,
-  },
-  {
-    id: 2,
-    itemName: "Item B",
-    quantity: 5,
-  },
-  {
-    id: 3,
-    itemName: "Item C",
-    quantity: 5,
-  },
-];
+import { inventoryData } from "./inventoryData";
+import { IInventoryItem } from "../../types";
 
 const InventoryListPage: React.FC = () => {
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [items, setItems] = useState<IInventoryItem[]>([
+    { id: 0, itemName: "", quantity: 0 },
+  ]);
+
+  useEffect(() => {
+    setItems([...inventoryData]);
+  }, []);
+
+  const setItemQty = (selectedIndex: number, setQty: number) => {
+    // map through items
+    const updateItems = (items: Array<IInventoryItem>) =>
+      items.map((item: IInventoryItem, idx: number) =>
+        setItemQtyByIdx(item, idx)
+      );
+
+    // find correct item by matching index and update qty for that item
+    const setItemQtyByIdx = (item: IInventoryItem, index: number) => {
+      if (index === selectedIndex && setQty > 0) {
+        return { ...item, quantity: +setQty };
+      } else {
+        return item;
+      }
+    };
+
+    setItems((state) => updateItems(state));
+  };
 
   const handleEdit = () => {
     setEditMode((prevState) => !prevState);
@@ -46,11 +56,15 @@ const InventoryListPage: React.FC = () => {
   const titleIcon = editMode ? checkmark : pencil;
   const titleIconHandleClick = editMode ? handleSave : handleEdit;
 
-  const renderItem = (item: {
-    id: number;
-    itemName: string;
-    quantity: number;
-  }) => <InventoryItem key={item.id} item={item} editMode={editMode} />;
+  const renderItem = (item: IInventoryItem, idx: number) => (
+    <InventoryItem
+      key={item.id}
+      idx={idx}
+      item={item}
+      editMode={editMode}
+      setQty={setItemQty}
+    />
+  );
 
   return (
     <IonPage>
@@ -67,7 +81,7 @@ const InventoryListPage: React.FC = () => {
         </IonHeader>
         <ExploreContainer>Inventory List Page </ExploreContainer>
         <IonList lines="none" className="item-list">
-          {data.map(renderItem)}
+          {items.map(renderItem)}
         </IonList>
       </IonContent>
     </IonPage>

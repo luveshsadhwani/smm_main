@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   IonItem,
   IonLabel,
@@ -7,14 +8,34 @@ import {
   IonIcon,
   IonBadge,
   IonText,
+  IonInput,
 } from "@ionic/react";
 import { addCircleSharp, removeCircleSharp } from "ionicons/icons";
 import "./InventoryItem.css";
+import { IInventoryItem } from "../../types";
 
 const InventoryItem: React.FC<{
-  item: { itemName: string; quantity: number };
+  item: IInventoryItem;
+  idx: number;
   editMode: boolean;
-}> = ({ item, editMode }) => {
+  setQty: (index: number, quantity: number) => void;
+}> = ({ item, idx, editMode, setQty }) => {
+  const [itemQty, setItemQty] = useState<number>(item.quantity);
+
+  const incrementItemQty = () => {
+    setItemQty((state) => +state + 1);
+  };
+
+  const decrementItemQty = () => {
+    setItemQty((state) => {
+      if (state <= 0) {
+        return state;
+      } else {
+        return +state - 1;
+      }
+    });
+  };
+
   return (
     <IonItemSliding>
       <IonItem lines="full" color="light">
@@ -25,12 +46,26 @@ const InventoryItem: React.FC<{
               size="large"
               icon={addCircleSharp}
               className="ion-padding-end"
+              onClick={() => {
+                incrementItemQty();
+              }}
             />
           )}
           <IonBadge className="ion-padding-horizontal" color="medium">
-            <IonText>
-              <h6>{item.quantity}</h6>
-            </IonText>
+            {editMode ? (
+              <IonInput
+                inputMode="numeric"
+                min={0}
+                size={1}
+                value={itemQty}
+                onIonChange={(e: CustomEvent) => setItemQty(e.detail.value)}
+                onIonBlur={() => setQty(idx, itemQty)}
+              ></IonInput>
+            ) : (
+              <IonText>
+                <h6>{itemQty}</h6>
+              </IonText>
+            )}
           </IonBadge>
 
           {editMode && (
@@ -38,6 +73,7 @@ const InventoryItem: React.FC<{
               size="large"
               icon={removeCircleSharp}
               className="ion-padding-start"
+              onClick={() => decrementItemQty()}
             />
           )}
         </IonItem>
