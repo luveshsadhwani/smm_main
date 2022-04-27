@@ -10,7 +10,9 @@ import {
 import { pencil, checkmark } from "ionicons/icons";
 import ExploreContainer from "../../components/ExploreContainer";
 import "./Inventory.css";
-import { AppHeader, InventoryItem } from "../../components";
+  InventoryItem,
+  InventoryItemEditMode,
+} from "../../components";
 import { inventoryData } from "./inventoryData";
 import { IInventoryItem } from "../../types";
 
@@ -56,15 +58,17 @@ const InventoryListPage: React.FC = () => {
   const titleIcon = editMode ? checkmark : pencil;
   const titleIconHandleClick = editMode ? handleSave : handleEdit;
 
-  const renderItem = (item: IInventoryItem, idx: number) => (
-    <InventoryItem
-      key={item.id}
-      idx={idx}
-      item={item}
-      editMode={editMode}
-      setQty={setItemQty}
-    />
-  );
+  const renderListItem = (item: IInventoryItem, idx: number) =>
+    editMode ? (
+      <InventoryItemEditMode
+        key={item.id}
+        idx={idx}
+        item={item}
+        setQty={setItemQty}
+      />
+    ) : (
+      <InventoryItem key={item.id} idx={idx} item={item} />
+    );
 
   return (
     <IonPage>
@@ -81,7 +85,7 @@ const InventoryListPage: React.FC = () => {
         </IonHeader>
         <ExploreContainer>Inventory List Page </ExploreContainer>
         <IonList lines="none" className="item-list">
-          {items.map(renderItem)}
+          {items.map(renderListItem)}
         </IonList>
       </IonContent>
     </IonPage>
