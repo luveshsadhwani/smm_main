@@ -49,6 +49,7 @@ const Login: React.FC = () => {
   return (
     <IonPage>
       <Alert
+        type="alert"
         errorMessage={error}
         setErrorMessage={setError}
         header={"Invalid"}

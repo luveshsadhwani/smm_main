@@ -1,17 +1,17 @@
 import { IonAlert } from "@ionic/react";
 
 const Alert: React.FC<{
+  type: "alert" | "delete";
   errorMessage: string;
   setErrorMessage: (state: string) => void;
   header: string;
-}> = ({ errorMessage, setErrorMessage, header }) => {
-  return (
-    <IonAlert
-      isOpen={!!errorMessage}
-      onDidDismiss={() => setErrorMessage("")}
-      header={header}
-      message={errorMessage}
-      buttons={[
+  buttonAction?: () => void;
+}> = ({ type, errorMessage, setErrorMessage, header, buttonAction }) => {
+  const renderButtons = () => {
+    let buttonArray: { text: string; id: string; handler: () => void }[] = [];
+
+    if (type === "alert") {
+      buttonArray = [
         {
           text: "OK",
           id: "cancel-button",
@@ -19,7 +19,38 @@ const Alert: React.FC<{
             setErrorMessage("");
           },
         },
-      ]}
+      ];
+    }
+
+    if (type === "delete") {
+      buttonArray = [
+        {
+          text: "YES",
+          id: "delete-button",
+          handler: () => {
+            if (buttonAction) buttonAction();
+          },
+        },
+        {
+          text: "CANCEL",
+          id: "cancel-button",
+          handler: () => {
+            setErrorMessage("");
+          },
+        },
+      ];
+    }
+
+    return buttonArray;
+  };
+
+  return (
+    <IonAlert
+      isOpen={!!errorMessage}
+      onDidDismiss={() => setErrorMessage("")}
+      header={header}
+      message={errorMessage}
+      buttons={renderButtons()}
     />
   );
 };

@@ -1,25 +1,32 @@
-import { useState } from "react";
 import {
   IonItem,
+  IonIcon,
   IonLabel,
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
-  IonIcon,
   IonBadge,
   IonText,
-  IonInput,
 } from "@ionic/react";
-import { addCircleSharp, removeCircleSharp } from "ionicons/icons";
+import { trashSharp } from "ionicons/icons";
+import Alert from "../Alert";
 import "./InventoryItem.css";
 import { IInventoryItem } from "../../types";
+import { useState } from "react";
 
 const InventoryItem: React.FC<{
   item: IInventoryItem;
   idx: number;
 }> = ({ item, idx }) => {
+  const [error, setError] = useState<string>("");
   return (
     <IonItemSliding>
+      <Alert
+        type="delete"
+        errorMessage={error}
+        setErrorMessage={setError}
+        header={"DELETE"}
+      />
       <IonItem lines="full" color="light">
         <IonLabel className="ion-padding-vertical">{item.itemName}</IonLabel>
         <IonItem color="light">
