@@ -1,0 +1,5 @@
+### Start Script
+
+```
+ionic serve
+```
