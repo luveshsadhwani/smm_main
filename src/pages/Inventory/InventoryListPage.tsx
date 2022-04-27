@@ -10,6 +10,10 @@ import {
 import { pencil, checkmark } from "ionicons/icons";
 import ExploreContainer from "../../components/ExploreContainer";
 import "./Inventory.css";
+import {
+  AddItemModal,
+  AppHeader,
+  InventoryAdd,
   InventoryItem,
   InventoryItemEditMode,
 } from "../../components";
@@ -17,6 +21,7 @@ import { inventoryData } from "./inventoryData";
 import { IInventoryItem } from "../../types";
 
 const InventoryListPage: React.FC = () => {
+  const [addMode, setAddMode] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [items, setItems] = useState<IInventoryItem[]>([
     { id: 0, itemName: "", quantity: 0 },
@@ -83,9 +88,11 @@ const InventoryListPage: React.FC = () => {
             <IonTitle size="large">Inventory</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <AddItemModal isOpen={addMode} setOpen={setAddMode} />
         <ExploreContainer>Inventory List Page </ExploreContainer>
         <IonList lines="none" className="item-list">
           {items.map(renderListItem)}
+          <InventoryAdd setModalOpen={setAddMode} />
         </IonList>
       </IonContent>
     </IonPage>
